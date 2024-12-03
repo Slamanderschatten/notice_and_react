@@ -85,6 +85,7 @@ int main(int argc, char* argv[])
             else if (event.type == SDL_KEYUP) { // Taste losgelassen
                 std::cout << "Taste losgelassen: " << SDL_GetKeyName(event.key.keysym.sym) << std::endl;
             }
+
         }
 
 

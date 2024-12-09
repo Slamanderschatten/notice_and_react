@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <iostream>
 #include <stdint.h>
 #include <random>
@@ -26,11 +25,13 @@ namespace cgame {
 		//extern
 		SDL_Window* window;
 		SDL_Renderer* renderer;
+		string basePath;
 		//buttons
 		SDL_Rect buttonPlayersII;
 		SDL_Rect buttonPlayersIII;
-		//text
-		TTF_Font* font = TTF_OpenFont("OpenSans-Regular.ttf", 24);
+		//tex
+		const string fontPath;
+		TTF_Font* font;
 
 
 		void printStartMenue();

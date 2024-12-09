@@ -15,6 +15,8 @@ namespace cgame {
 	private:
 		//extern
 		SDL_Renderer* renderer;
+		char* basePathC;
+		string basePath;
 		//settings
 		uint8_t numberPlayer = 0;
 		uint64_t fieldSize;

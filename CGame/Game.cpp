@@ -38,6 +38,9 @@ namespace cgame {
 			winSizeY(fieldSize),
 			activationCycles(activationCycles) {
 
+		basePathC = SDL_GetBasePath();
+		basePath = basePathC;
+
 		for (uint16_t i = 0; i < numberPlayer; i++) {
 			SDL_Color color = {0,0,0,255};
 			switch (i){

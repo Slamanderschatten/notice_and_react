@@ -11,13 +11,22 @@
 
 
 
+
+
+
 int main(int argc, char* argv[])
 {
     using namespace cgame;
+    dklsahg
 
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         SDL_Log("Fehler bei SDL_Init: %s", SDL_GetError());
+        return 1;
+    }
+
+    if (TTF_Init() < 0) {
+        SDL_Log("Fehler bei TTF_Init: %s", SDL_GetError());
         return 1;
     }
     

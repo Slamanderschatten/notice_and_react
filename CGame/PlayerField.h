@@ -9,6 +9,9 @@
 #include <atomic>
 
 
+#include "PlayerKeys.h"
+
+
 
 namespace cgame {
 	using namespace std;
@@ -23,12 +26,13 @@ namespace cgame {
 		//extern
 		SDL_Renderer* renderer;
 		//player settings
-		const uint64_t playerFieldPositionX;
-		const SDL_Color color;
+		uint64_t playerFieldPositionX;
+		SDL_Color color;
+		PlayerKeys* keys;
 		//field settings
-		const uint8_t sideLenght;
-		const uint16_t partialFieldNumber;
-		const uint16_t fieldRandomNumber;
+		uint8_t sideLenght;
+		uint16_t partialFieldNumber;
+		uint16_t fieldRandomNumber;
 		uint64_t fieldPixelLength;
 		double frequency;
 		uint8_t storedFieldNumber;
@@ -49,6 +53,11 @@ namespace cgame {
 		void printField();
 		void printActivations();
 		void printCursor();
+		void up();
+		void down();
+		void left();
+		void right();
+		void activate();
 
 
 	public:
@@ -58,16 +67,14 @@ namespace cgame {
 			uint8_t sideLenght,
 			uint64_t sideLenghtPixel,
 			double frequency,
-			uint8_t activationCycles);
+			uint8_t activationCycles,
+			PlayerKeys* keys);
 		PlayerField(const PlayerField& other);
 		~PlayerField();
 		void update();
 		void print();
-		void up();
-		void down();
-		void left();
-		void right();
-		void activate();
+		PlayerKeys* getKeys();
+		bool keyAction(SDL_Keycode key);
 
 
 

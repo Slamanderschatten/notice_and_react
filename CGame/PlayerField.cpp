@@ -107,79 +107,6 @@ namespace cgame {
 	}
 
 
-
-
-
-
-
-	/************************ public ******************************************/
-
-
-	PlayerField::PlayerField(SDL_Renderer* renderer,
-							uint64_t playerPos,
-							SDL_Color playerColor,
-							uint8_t sideLenght,
-							uint64_t sideLenghtPixel,
-							double frequency,
-							uint8_t activationCycles) :
-			renderer(renderer),
-			sideLenght(sideLenght),
-			frequency(frequency),
-			partialFieldNumber(sideLenght* sideLenght),
-			fieldRandomNumber(partialFieldNumber / 64),
-			playerFieldPositionX(playerPos),
-			color(playerColor),
-			storedFieldNumber(activationCycles),
-			fieldPixelLength(sideLenghtPixel),
-			cursorRect() {
-
-		activatedMask = new uint64_t[fieldRandomNumber];
-
-		cursorRect.x = fieldPixelLength / 4;
-		cursorRect.y = fieldPixelLength / 4;
-		cursorRect.w = fieldPixelLength / 2;
-		cursorRect.h = fieldPixelLength / 2;
-
-		std::srand(static_cast<unsigned>(std::time(0)));
-
-	}
-
-
-	PlayerField::PlayerField(const PlayerField& o) :
-		renderer(o.renderer),
-		sideLenght(o.sideLenght),
-		frequency(o.frequency),
-		partialFieldNumber(o.partialFieldNumber),
-		fieldRandomNumber(o.fieldRandomNumber),
-		playerFieldPositionX(o.playerFieldPositionX),
-		color(o.color),
-		storedFieldNumber(o.storedFieldNumber),
-		fieldPixelLength(o.fieldPixelLength),
-		cursorRect(o.cursorRect),
-		activatedMask(o.activatedMask) {
-
-	}
-
-
-	PlayerField::~PlayerField() {
-		for (uint64_t* fieldMask : fieldMasks) {
-			delete[] fieldMask;
-		}
-		delete[] activatedMask;
-	}
-
-
-	void PlayerField::update() {
-	}
-
-
-	void PlayerField::print() {
-		printField();
-		printActivations();
-		printCursor();
-	}
-
-
 	void PlayerField::up() {
 		if (cursorRect.y > 0) {
 			cursorRect.y -= fieldPixelLength;
@@ -206,6 +133,84 @@ namespace cgame {
 	}
 
 
+
+
+
+
+
+	/************************ public ******************************************/
+
+
+	PlayerField::PlayerField(SDL_Renderer* renderer,
+							uint64_t playerPos,
+							SDL_Color playerColor,
+							uint8_t sideLenght,
+							uint64_t sideLenghtPixel,
+							double frequency,
+							uint8_t activationCycles,
+							PlayerKeys* keys) :
+			renderer(renderer),
+			sideLenght(sideLenght),
+			frequency(frequency),
+			partialFieldNumber(sideLenght* sideLenght),
+			fieldRandomNumber(partialFieldNumber / 64),
+			playerFieldPositionX(playerPos),
+			color(playerColor),
+			storedFieldNumber(activationCycles),
+			fieldPixelLength(sideLenghtPixel),
+			cursorRect(),
+			keys(keys){
+
+		activatedMask = new uint64_t[fieldRandomNumber];
+
+		cursorRect.x = fieldPixelLength / 4;
+		cursorRect.y = fieldPixelLength / 4;
+		cursorRect.w = fieldPixelLength / 2;
+		cursorRect.h = fieldPixelLength / 2;
+
+		std::srand(static_cast<unsigned>(std::time(0)));
+
+	}
+
+
+	PlayerField::PlayerField(const PlayerField& o) :
+		renderer(o.renderer),
+		sideLenght(o.sideLenght),
+		frequency(o.frequency),
+		partialFieldNumber(o.partialFieldNumber),
+		fieldRandomNumber(o.fieldRandomNumber),
+		playerFieldPositionX(o.playerFieldPositionX),
+		color(o.color),
+		storedFieldNumber(o.storedFieldNumber),
+		fieldPixelLength(o.fieldPixelLength),
+		cursorRect(o.cursorRect),
+		activatedMask(o.activatedMask),
+		keys(o.keys){
+
+	}
+
+
+	PlayerField::~PlayerField() {
+		for (uint64_t* fieldMask : fieldMasks) {
+			delete[] fieldMask;
+		}
+		if (keys)
+			delete keys;
+		delete[] activatedMask;
+	}
+
+
+	void PlayerField::update() {
+	}
+
+
+	void PlayerField::print() {
+		printField();
+		printActivations();
+		printCursor();
+	}
+
+
 	void PlayerField::activate() {
 		uint16_t randomValueIndex = (cursorPartialField - 1) / 63;
 		uint8_t bit = cursorPartialField % 64;
@@ -223,6 +228,40 @@ namespace cgame {
 		if (activationPossible) {
 			activatedMask[randomValueIndex] |= bitMask;
 		}
+	}
+
+
+	PlayerKeys* PlayerField::getKeys() {
+		return keys;
+	}
+
+
+	bool PlayerField::keyAction(SDL_Keycode key) {
+		if (key == keys->up) {
+			up();
+			return true;
+		}
+		if (key == keys->down) {
+			down();
+			return true;
+		}
+		if (key == keys->left) {
+			left();
+			return true;
+		}
+		if (key == keys->right) {
+			right();
+			return true;
+		}
+		else {
+			for (SDL_Keycode& activateKey : keys->activate) {
+				if (key == activateKey) {
+					activate();
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 

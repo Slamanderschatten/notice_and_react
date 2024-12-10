@@ -74,24 +74,30 @@ int main(int argc, char* argv[])
                     std::cout << "Escape-Taste gedrückt!" << std::endl;
                     run = false;
                     break;
+                case SDLK_w:
+                    break;
                 case SDLK_a:
-                    std::cout << "Taste 'A' gedrückt!" << std::endl;
+                    break;
+                case SDLK_s:
+                    break;
+                case SDLK_d:
                     break;
                 case SDLK_UP:
-                    std::cout << "Pfeil nach oben gedrückt!" << std::endl;
                     break;
-                case SDL_MOUSEBUTTONDOWN:
-                    int mouseX, mouseY;
-                    SDL_GetMouseState(&mouseX, &mouseY);
-                    game = menue.startGameButton(mouseX, mouseY);
+                case SDLK_LEFT:
                     break;
-                default:
-                    std::cout << "Andere Taste: " << SDL_GetKeyName(event.key.keysym.sym) << std::endl;
+                case SDLK_DOWN:
+                    break;
+                case SDLK_RIGHT:
                     break;
                 }
             }
+            else if (event.type == SDL_MOUSEBUTTONDOWN) {
+                int mouseX, mouseY;
+                SDL_GetMouseState(&mouseX, &mouseY);
+                game = menue.startGameButton(mouseX, mouseY);
+            }
             else if (event.type == SDL_KEYUP) { // Taste losgelassen
-                std::cout << "Taste losgelassen: " << SDL_GetKeyName(event.key.keysym.sym) << std::endl;
             }
 
         }

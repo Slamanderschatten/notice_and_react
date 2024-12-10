@@ -1,11 +1,52 @@
-﻿  StartMenue.cpp
+﻿  CGame.cpp
+  Game.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\vector(987,28): error C2280: "cgame::PlayerField &cgame::PlayerField::operator =(const cgame::PlayerField &)" : Es wurde versucht, auf eine gelöschte Funktion zu verweisen
+  (Quelldatei „Game.cpp“ wird kompiliert)
+      C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.h(81,2):
+      Compiler hat hier "cgame::PlayerField::operator =" generiert
+      C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.h(81,2):
+      "cgame::PlayerField &cgame::PlayerField::operator =(const cgame::PlayerField &)": Die Funktion wurde implizit gelöscht, weil eine Datenmember eine Funktion "std::atomic<bool> &std::atomic<bool>::operator =(const std::atomic<bool> &)" aufruft, die gelöscht wurde oder nicht zugänglich ist.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2130,13):
+      "std::atomic<bool> &std::atomic<bool>::operator =(const std::atomic<bool> &)": Die Funktion wurde explizit gelöscht.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\vector(987,28):
+      der Vorlageninstanziierungskontext (der älteste zuerst) ist
+          C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\Game.cpp(78,11):
+          Siehe Verweis auf die gerade kompilierte Instanziierung "std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>> std::vector<_Ty,std::allocator<_Ty>>::emplace<SDL_Renderer*&,uint64_t,SDL_Color&,uint8_t&,uint64_t&,double&,uint8_t&,cgame::PlayerKeys*&>(std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,SDL_Renderer *&,uint64_t &&,SDL_Color &,uint8_t &,uint64_t &,double &,uint8_t &,cgame::PlayerKeys *&)" der Funktions-Vorlage.
+          with
+          [
+              _Ty=cgame::PlayerField
+          ]
+              C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\Game.cpp(78,18):
+              Ersten Verweis auf "std::vector<cgame::PlayerField,std::allocator<cgame::PlayerField>>::emplace" in "cgame::Game::Game" anzeigen
+  
+  PlayerField.cpp
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(42,47): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(43,28): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(44,26): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(45,26): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(49,77): warning C4244: "Argument": Konvertierung von "double" in "Uint8", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(49,62): warning C4244: "Argument": Konvertierung von "double" in "Uint8", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(49,47): warning C4244: "Argument": Konvertierung von "double" in "Uint8", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(79,47): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(80,28): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(81,26): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(82,26): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(112,20): warning C4244: "-=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(118,20): warning C4244: "+=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(124,20): warning C4244: "-=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(130,20): warning C4244: "+=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(166,35): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(167,35): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(168,35): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\PlayerField.cpp(169,35): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+  StartMenue.cpp
 C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(17,32): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
 C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(18,36): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
 C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(33,37): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
 C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(34,33): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
 C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(35,37): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(65,39): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(65,29): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(95,5): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(94,32): warning C4244: "Argument": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-  CGame.vcxproj -> C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\x64\Debug\CGame.exe
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(64,39): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(64,29): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(94,5): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
+C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(93,32): warning C4244: "Argument": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
+  Code wird generiert...

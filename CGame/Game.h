@@ -36,6 +36,7 @@ namespace cgame {
 			uint8_t numberOfPlayers, 
 			uint8_t partialFieldsPerSide, 
 			uint64_t fieldSizePixel);
+		void keyAction(SDL_Keycode key);
 
 
 	};

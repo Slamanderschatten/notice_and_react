@@ -27,6 +27,9 @@
     <ClCompile Include="StartMenue.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerKeys.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerField.h">
@@ -36,6 +39,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="StartMenue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAction.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerKeys.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

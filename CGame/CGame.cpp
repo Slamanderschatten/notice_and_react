@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <mutex>
+#include <thread>
 
 #include "Game.h"
 #include "StartMenue.h"
@@ -54,50 +55,47 @@ int main(int argc, char* argv[])
 
 
     //game objects
-    StartMenue menue(window, renderer);
+    StartMenue* menue = new StartMenue(window, renderer);
     Game* game = nullptr;
     
 
 
 
     // main loop
-    bool run = true;
+    atomic<bool> run = true;
     while (run) {
+        this_thread::sleep_for(chrono::milliseconds(10));
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
+                game->stop();
                 run = false;
             }
-            else if (event.type == SDL_KEYDOWN) { // Taste gedrückt
+            else if (event.type == SDL_KEYDOWN) {
+                if (game) {
+                    game->keyAction(event.key.keysym.sym);
+                }
                 switch (event.key.keysym.sym) {
                 case SDLK_ESCAPE:
-                    std::cout << "Escape-Taste gedrückt!" << std::endl;
+                    game->stop();
                     run = false;
-                    break;
-                case SDLK_w:
-                    break;
-                case SDLK_a:
-                    break;
-                case SDLK_s:
-                    break;
-                case SDLK_d:
-                    break;
-                case SDLK_UP:
-                    break;
-                case SDLK_LEFT:
-                    break;
-                case SDLK_DOWN:
-                    break;
-                case SDLK_RIGHT:
                     break;
                 }
             }
             else if (event.type == SDL_MOUSEBUTTONDOWN) {
                 int mouseX, mouseY;
                 SDL_GetMouseState(&mouseX, &mouseY);
-                game = menue.startGameButton(mouseX, mouseY);
+                if (menue) {
+                    game = menue->startGameButton(mouseX, mouseY);
+                    if (game) {
+                        game->start();
+                        delete menue;
+                        menue = nullptr;
+                        SDL_RenderClear(renderer);
+                    }
+                }
             }
-            else if (event.type == SDL_KEYUP) { // Taste losgelassen
+            else if (event.type == SDL_KEYUP) {
             }
 
         }
@@ -111,7 +109,7 @@ int main(int argc, char* argv[])
 
 
 
-
+    delete game;
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

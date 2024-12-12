@@ -20,29 +20,44 @@ namespace cgame {
 
 
 	void PlayerField::generateFieldMask() {
-		uint64_t* newFieldMask = new uint64_t[fieldRandomNumber];
+		actualMask++;
+		if (actualMask == fieldMasks.size())
+			actualMask = 0;
 		for (int i = 0; i < fieldRandomNumber; i++) {
-			newFieldMask[i] = rand();
+			uint64_t randomI = rand();
+			randomI <<= 16;
+			randomI |= rand();
+			randomI <<= 16;
+			randomI |= rand();
+			randomI <<= 16;
+			randomI |= rand();
+			uint64_t randomII = rand();
+			randomII <<= 16;
+			randomII |= rand();
+			randomII <<= 16;
+			randomII |= rand();
+			randomII <<= 16;
+			randomII |= rand();
+			fieldMasks[actualMask][i] = randomI & randomII;
 		}
-		fieldMasks.pop_front();
-		fieldMasks.push_back(newFieldMask);
 	}
 
 
 	void PlayerField::printField() {
-		uint64_t* fieldMask = fieldMasks.back();
+		const uint64_t rvalMask = 0x0000000000000001;
+		vector<uint64_t> fieldMask = fieldMasks[actualMask];
 		uint8_t x = 0;
 		uint8_t y = 0;
+
 		for (uint16_t i = 0; i < fieldRandomNumber; i++) {
 			uint64_t rval = fieldMask[i];
-			const uint64_t rvalMask = 0x0000000000000001;
 			for (uint8_t j = 0; j < 64; j++) {
 				//set partialField
 				SDL_Rect partialFieldRect;
-				partialFieldRect.x = x * fieldPixelLength + playerFieldPositionX;
-				partialFieldRect.y = y * fieldPixelLength;
-				partialFieldRect.w = fieldPixelLength;
-				partialFieldRect.h = fieldPixelLength;
+				partialFieldRect.x = x * partialFieldPixelLength + offcetX;
+				partialFieldRect.y = y * partialFieldPixelLength;
+				partialFieldRect.w = partialFieldPixelLength;
+				partialFieldRect.h = partialFieldPixelLength;
 
 				//partial field is true
 				if (rval & rvalMask) {
@@ -51,6 +66,7 @@ namespace cgame {
 				else {
 					SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				}
+				rval >>= 1;
 
 				//print partial field
 				SDL_RenderFillRect(renderer, &partialFieldRect);
@@ -68,18 +84,18 @@ namespace cgame {
 
 
 	void PlayerField::printActivations() {
+		const uint64_t rvalMask = 0x0000000000000001;
 		uint8_t x = 0;
 		uint8_t y = 0;
 		for (uint16_t i = 0; i < fieldRandomNumber; i++) {
 			uint64_t rval = activatedMask[i];
-			const uint64_t rvalMask = 0x0000000000000001;
 			for (uint8_t j = 0; j < 64; j++) {
 				//set partialField
 				SDL_Rect partialFieldRect;
-				partialFieldRect.x = x * fieldPixelLength + playerFieldPositionX;
-				partialFieldRect.y = y * fieldPixelLength;
-				partialFieldRect.w = fieldPixelLength;
-				partialFieldRect.h = fieldPixelLength;
+				partialFieldRect.x = x * partialFieldPixelLength + offcetX;
+				partialFieldRect.y = y * partialFieldPixelLength;
+				partialFieldRect.w = partialFieldPixelLength;
+				partialFieldRect.h = partialFieldPixelLength;
 
 				//partial field is true
 				if (rval & rvalMask) {
@@ -108,28 +124,32 @@ namespace cgame {
 
 
 	void PlayerField::up() {
-		if (cursorRect.y > 0) {
-			cursorRect.y -= fieldPixelLength;
+		if (cursorPartialField >= sideLenght) {
+			cursorRect.y -= partialFieldPixelLength;
 			cursorPartialField -= sideLenght;
 		}
+		print();
 	}
 	void PlayerField::down() {
-		if (cursorRect.y < (sideLenght - 1) * fieldPixelLength) {
-			cursorRect.y += fieldPixelLength;
+		if (cursorPartialField <= partialFieldNumber - sideLenght) {
+			cursorRect.y += partialFieldPixelLength;
 			cursorPartialField += sideLenght;
 		}
+		print();
 	}
 	void PlayerField::left() {
-		if (cursorRect.x > 0) {
-			cursorRect.x -= fieldPixelLength;
+		if (cursorPartialField % sideLenght != 0) {
+			cursorRect.x -= partialFieldPixelLength;
 			cursorPartialField--;
 		}
+		print();
 	}
 	void PlayerField::right() {
-		if (cursorRect.x < (sideLenght - 1) * fieldPixelLength) {
-			cursorRect.x += fieldPixelLength;
+		if ((cursorPartialField + 1) % sideLenght != 0) {
+			cursorRect.x += partialFieldPixelLength;
 			cursorPartialField++;
 		}
+		print();
 	}
 
 
@@ -148,91 +168,83 @@ namespace cgame {
 							uint64_t sideLenghtPixel,
 							double frequency,
 							uint8_t activationCycles,
+							uint8_t cyclesToActivate,
 							PlayerKeys* keys) :
 			renderer(renderer),
 			sideLenght(sideLenght),
 			frequency(frequency),
 			partialFieldNumber(sideLenght* sideLenght),
-			fieldRandomNumber(partialFieldNumber / 64),
-			playerFieldPositionX(playerPos),
+			offcetX(playerPos),
 			color(playerColor),
-			storedFieldNumber(activationCycles),
+			activationCycles(activationCycles),
+			cyclesToActivate(cyclesToActivate),
 			fieldPixelLength(sideLenghtPixel),
+			partialFieldPixelLength(fieldPixelLength / sideLenght),
 			cursorRect(),
 			keys(keys){
 
-		activatedMask = new uint64_t[fieldRandomNumber];
+		fieldRandomNumber = partialFieldNumber / 64;
+		if (partialFieldNumber % 64 > 0)
+			fieldRandomNumber++;
 
-		cursorRect.x = fieldPixelLength / 4;
-		cursorRect.y = fieldPixelLength / 4;
-		cursorRect.w = fieldPixelLength / 2;
-		cursorRect.h = fieldPixelLength / 2;
+		activatedMask.resize(fieldRandomNumber);
+
+		cursorRect.x = partialFieldPixelLength / 4 + offcetX;
+		cursorRect.y = partialFieldPixelLength / 4;
+		cursorRect.w = partialFieldPixelLength / 2;
+		cursorRect.h = partialFieldPixelLength / 2;
+
+		fieldMasks.resize(activationCycles + cyclesToActivate);
+		for (vector<uint64_t>& fieldMask : fieldMasks) {
+			fieldMask.resize(fieldRandomNumber);
+		}
 
 		std::srand(static_cast<unsigned>(std::time(0)));
 
 	}
 
 
-	PlayerField::PlayerField(const PlayerField& o) :
-		renderer(o.renderer),
-		sideLenght(o.sideLenght),
-		frequency(o.frequency),
-		partialFieldNumber(o.partialFieldNumber),
-		fieldRandomNumber(o.fieldRandomNumber),
-		playerFieldPositionX(o.playerFieldPositionX),
-		color(o.color),
-		storedFieldNumber(o.storedFieldNumber),
-		fieldPixelLength(o.fieldPixelLength),
-		cursorRect(o.cursorRect),
-		activatedMask(o.activatedMask),
-		keys(o.keys){
-
-	}
-
-
-	PlayerField::~PlayerField() {
-		for (uint64_t* fieldMask : fieldMasks) {
-			delete[] fieldMask;
-		}
+	void PlayerField::clear() {
 		if (keys)
 			delete keys;
-		delete[] activatedMask;
 	}
 
 
 	void PlayerField::update() {
+		generateFieldMask();
 	}
 
 
 	void PlayerField::print() {
 		printField();
-		printActivations();
-		printCursor();
+		//printActivations();
+		//printCursor();
 	}
 
 
 	void PlayerField::activate() {
-		uint16_t randomValueIndex = (cursorPartialField - 1) / 63;
+		uint16_t randomValueIndex = cursorPartialField / 64;
 		uint8_t bit = cursorPartialField % 64;
 		uint64_t bitMask = 1;
 		bitMask = bitMask << bit;
 
 		bool activationPossible = true;
-		for (uint64_t* fieldMask : fieldMasks) {
-			if (!(fieldMask[randomValueIndex] & bitMask)) {
+		uint8_t mask = actualMask;
+		for (uint64_t i = 0; i < activationCycles; i++) {
+			if (!(fieldMasks[mask][randomValueIndex] & bitMask)) {
 				activationPossible = false;
 				break;
 			}
+			if (mask == 0)
+				mask = fieldMasks.size() - 1;
+			else
+				mask--;
 		}
 
 		if (activationPossible) {
 			activatedMask[randomValueIndex] |= bitMask;
 		}
-	}
-
-
-	PlayerKeys* PlayerField::getKeys() {
-		return keys;
+		print();
 	}
 
 

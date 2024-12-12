@@ -8,6 +8,20 @@ namespace cgame {
 	/************************ private ******************************************/
 
 
+	void Game::cycle() {
+		auto nextCallTime = chrono::steady_clock::now();
+		while (run) {
+			nextCallTime += cycleTime;
+			this_thread::sleep_until(nextCallTime);
+			
+			for (PlayerField& field : fields) {
+				field.update();
+				field.print();
+			}
+
+		}
+	}
+
 
 
 
@@ -23,14 +37,16 @@ namespace cgame {
 	/************************ public ******************************************/
 
 
-	Game::Game(SDL_Renderer* renderer, 
+	Game::Game(SDL_Renderer* renderer,
 				double frequency,
 				uint8_t activationCycles,
-				uint8_t numberOfPlayers, 
-				uint8_t partialFieldsPerSide, 
+				uint8_t cyclesToActivate,
+				uint8_t numberOfPlayers,
+				uint8_t partialFieldsPerSide,
 				uint64_t fieldSizePixel) :
 			renderer(renderer),
 			frequency(frequency),
+			cycleTime(static_cast<uint64_t>(1 / frequency * 1000000000)),
 			numberPlayer(numberOfPlayers),
 			partialFields(partialFieldsPerSide),
 			fieldSize(fieldSizePixel),
@@ -75,7 +91,7 @@ namespace cgame {
 				break;
 				
 			}
-			fields.emplace(fields.begin() + 1,
+			fields.emplace(fields.begin() + emplaceAt,
 				renderer,
 				static_cast<uint64_t>(fieldSize * i + (fieldSize / 20) * i),
 				color,
@@ -83,17 +99,46 @@ namespace cgame {
 				fieldSize,
 				frequency,
 				activationCycles,
+				cyclesToActivate,
 				keys);
+		}
+
+
+	}
+	Game::~Game() {
+		stop();
+
+		for (PlayerField& field : fields) {
+			fields.clear();
 		}
 	}
 
 
-	void Game::keyAction(SDL_Keycode key) {
+	void Game::start() {
+		run = true;
+		cycleThread = new thread(&Game::cycle, this);
+	}
+
+
+	void Game::stop() {
+		run = false;
+		if (cycleThread != nullptr) {
+			if (cycleThread->joinable()) {
+				cycleThread->join();
+			}
+			delete cycleThread;
+			cycleThread = nullptr;
+		}
+	}
+
+
+	bool Game::keyAction(SDL_Keycode key) {
 		for (PlayerField& field : fields) {
 			if(field.keyAction(key))
-				return;
+				return true;
 
 		}
+		return false;
 	}
 
 

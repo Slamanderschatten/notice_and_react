@@ -26,7 +26,7 @@ namespace cgame {
 		//extern
 		SDL_Renderer* renderer;
 		//player settings
-		uint64_t playerFieldPositionX;
+		uint64_t offcetX;
 		SDL_Color color;
 		PlayerKeys* keys;
 		//field settings
@@ -34,19 +34,17 @@ namespace cgame {
 		uint16_t partialFieldNumber;
 		uint16_t fieldRandomNumber;
 		uint64_t fieldPixelLength;
+		uint64_t partialFieldPixelLength;
 		double frequency;
-		uint8_t storedFieldNumber;
+		uint8_t activationCycles;
+		uint8_t cyclesToActivate;
 		//field
-		deque<uint64_t*> fieldMasks;
-		uint64_t* activatedMask;
+		vector<vector<uint64_t>> fieldMasks;
+		uint8_t actualMask = 0;
+		vector<uint64_t> activatedMask;
 		//cursor
 		SDL_Rect cursorRect;
 		uint16_t cursorPartialField = 0;
-		//signals
-		atomic<bool> nextCycle = false;
-
-		//threads
-		thread cycleTrigger;
 
 
 		void generateFieldMask();
@@ -68,12 +66,11 @@ namespace cgame {
 			uint64_t sideLenghtPixel,
 			double frequency,
 			uint8_t activationCycles,
+			uint8_t cyclesToActivate,
 			PlayerKeys* keys);
-		PlayerField(const PlayerField& other);
-		~PlayerField();
+		void clear();
 		void update();
 		void print();
-		PlayerKeys* getKeys();
 		bool keyAction(SDL_Keycode key);
 
 

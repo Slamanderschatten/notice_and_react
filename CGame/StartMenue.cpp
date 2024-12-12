@@ -21,12 +21,12 @@ namespace cgame {
 		//text
 		SDL_Surface* textSurfaceII = TTF_RenderText_Solid(font, "start Game with 2 players", { 255,255,255,255 });
 		SDL_Rect textRectII;
-		textRectII.w = textSurfaceII->w;
+		textRectII.w = textSurfaceII->w / 2;
 		textRectII.h = textSurfaceII->h;
 		textRectII.x = buttonPlayersII.x + (buttonPlayersII.w - textRectII.w) / 2;
 		textRectII.y = buttonPlayersII.y + (buttonPlayersII.h - textRectII.h) / 2;
 		SDL_Texture* textTextureII = SDL_CreateTextureFromSurface(renderer, textSurfaceII);
-		SDL_RenderCopy(renderer, textTextureII, nullptr, &buttonPlayersII);
+		SDL_RenderCopy(renderer, textTextureII, nullptr, &textRectII);
 
 		//button 3 players
 		buttonPlayersIII.x = 10;
@@ -38,12 +38,12 @@ namespace cgame {
 		//text
 		SDL_Surface* textSurfaceIII = TTF_RenderText_Solid(font, "start Game with 3 players", { 255,255,255,255 });
 		SDL_Rect textRectIII;
-		textRectIII.w = textSurfaceIII->w;
+		textRectIII.w = textSurfaceIII->w / 2;
 		textRectIII.h = textSurfaceIII->h;
 		textRectIII.x = buttonPlayersIII.x + (buttonPlayersIII.w - textRectIII.w) / 2; // Zentrieren
 		textRectIII.y = buttonPlayersIII.y + (buttonPlayersIII.h - textRectIII.h) / 2;
 		SDL_Texture* textTextureIII = SDL_CreateTextureFromSurface(renderer, textSurfaceIII);
-		SDL_RenderCopy(renderer, textTextureIII, nullptr, &buttonPlayersIII);
+		SDL_RenderCopy(renderer, textTextureIII, nullptr, &textRectIII);
 
 	}
 
@@ -60,7 +60,8 @@ namespace cgame {
 			window(window),
 			renderer(renderer),
 			basePath(basePath),
-			font(TTF_OpenFont("fonts/sono/variable/SonoVariable.ttf", 24)) {
+			font(TTF_OpenFont("fonts/sono/variable/SonoVariable.ttf", 50)) {
+		TTF_SetFontStyle(font, TTF_STYLE_BOLD);
 		SDL_SetWindowSize(window, winSizeX, winSizeY);
 		printStartMenue();
 	}
@@ -92,7 +93,7 @@ namespace cgame {
 			SDL_SetWindowSize(window, 
 				winSizeY * numberOfPlayers + (winSizeY / 20) * (numberOfPlayers - 1), 
 				winSizeY);
-			return new Game(renderer, 4.0, 3, numberOfPlayers, 8, winSizeY);
+			return new Game(renderer, 4.0, 3, 4, numberOfPlayers, 8, winSizeY);
 		}
 		else 
 			return nullptr;

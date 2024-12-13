@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <random>
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <deque>
 #include <thread>
 #include <atomic>
@@ -24,6 +25,7 @@ namespace cgame {
 
 	private:
 		//extern
+		SDL_Window* window;
 		SDL_Renderer* renderer;
 		//player settings
 		uint64_t offcetX;
@@ -59,7 +61,8 @@ namespace cgame {
 
 
 	public:
-		PlayerField(SDL_Renderer* renderer, 
+		PlayerField(SDL_Window* window,
+			SDL_Renderer* renderer,
 			uint64_t playerPixelPos,
 			SDL_Color playerColor,
 			uint8_t sideLenght,
@@ -72,6 +75,7 @@ namespace cgame {
 		void update();
 		void print();
 		bool keyAction(SDL_Keycode key);
+		bool checkActivations();
 
 
 

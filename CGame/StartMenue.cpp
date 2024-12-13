@@ -6,10 +6,7 @@ namespace cgame {
 
 
 
-	void StartMenue::printStartMenue() {
-
-
-
+	void StartMenue::print() {
 
 		//button 2 players
 		buttonPlayersII.x = 10;
@@ -59,11 +56,11 @@ namespace cgame {
 	StartMenue::StartMenue(SDL_Window* window, SDL_Renderer* renderer) :
 			window(window),
 			renderer(renderer),
-			basePath(basePath),
 			font(TTF_OpenFont("fonts/sono/variable/SonoVariable.ttf", 50)) {
 		TTF_SetFontStyle(font, TTF_STYLE_BOLD);
 		SDL_SetWindowSize(window, winSizeX, winSizeY);
-		printStartMenue();
+		print();
+		SDL_RenderPresent(renderer);
 	}
 	StartMenue::~StartMenue() {
 		TTF_CloseFont(font);
@@ -93,7 +90,7 @@ namespace cgame {
 			SDL_SetWindowSize(window, 
 				winSizeY * numberOfPlayers + (winSizeY / 20) * (numberOfPlayers - 1), 
 				winSizeY);
-			return new Game(renderer, 4.0, 3, 4, numberOfPlayers, 8, winSizeY);
+			return new Game(window, renderer, 1.0, 3, 4, numberOfPlayers, 2, winSizeY);
 		}
 		else 
 			return nullptr;

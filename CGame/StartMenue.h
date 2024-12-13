@@ -25,7 +25,6 @@ namespace cgame {
 		//extern
 		SDL_Window* window;
 		SDL_Renderer* renderer;
-		string basePath;
 		//buttons
 		SDL_Rect buttonPlayersII;
 		SDL_Rect buttonPlayersIII;
@@ -34,7 +33,7 @@ namespace cgame {
 		TTF_Font* font;
 
 
-		void printStartMenue();
+		void print();
 
 
 

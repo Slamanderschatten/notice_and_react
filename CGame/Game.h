@@ -3,6 +3,7 @@
 #include <numeric>
 
 #include "PlayerField.h"
+#include "EndMenue.h"
 
 
 
@@ -14,10 +15,10 @@ namespace cgame {
 	{
 	private:
 		//extern
+		SDL_Window* window;
 		SDL_Renderer* renderer;
 		char* basePathC;
 		string basePath;
-		atomic<bool> run = false;
 		//settings
 		uint8_t numberPlayer = 0;
 		uint64_t fieldSize;
@@ -29,15 +30,18 @@ namespace cgame {
 		//player
 		vector<PlayerField> fields;
 		//cycles
+		atomic<bool> run = false;
+		atomic<bool> cycleSignal = false;
 		thread* cycleThread = nullptr;
-		chrono::nanoseconds cycleTime;
+		chrono::milliseconds cycleTime;
 
 
-		void cycle();
+		void cycleClock();
 
 
 	public:
-		Game(SDL_Renderer* renderer, 
+		Game(SDL_Window* window,
+			SDL_Renderer* renderer,
 			double frequency, 
 			uint8_t activationCycles,
 			uint8_t cyclesToActivate,
@@ -47,7 +51,9 @@ namespace cgame {
 		~Game();
 		void start();
 		void stop();
+		void cycle();
 		bool keyAction(SDL_Keycode key);
+		int16_t checkActivations();
 
 
 	};

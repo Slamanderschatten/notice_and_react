@@ -57,6 +57,7 @@ int main(int argc, char* argv[])
     //game objects
     StartMenue* menue = new StartMenue(window, renderer);
     Game* game = nullptr;
+    EndMenue* endMenue = nullptr;
     
 
 
@@ -65,6 +66,8 @@ int main(int argc, char* argv[])
     atomic<bool> run = true;
     while (run) {
         this_thread::sleep_for(chrono::milliseconds(10));
+        if (game)
+            game->cycle();
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -74,6 +77,12 @@ int main(int argc, char* argv[])
             else if (event.type == SDL_KEYDOWN) {
                 if (game) {
                     game->keyAction(event.key.keysym.sym);
+                    int16_t winner = game->checkActivations();
+                    if (winner >= 0) {
+                        endMenue = new EndMenue(window, renderer, winner + 1);
+                        delete game;
+                        game = nullptr;
+                    }
                 }
                 switch (event.key.keysym.sym) {
                 case SDLK_ESCAPE:
@@ -91,7 +100,13 @@ int main(int argc, char* argv[])
                         game->start();
                         delete menue;
                         menue = nullptr;
-                        SDL_RenderClear(renderer);
+                    }
+                }
+                if (endMenue) {
+                    if(endMenue->endGameButton(mouseX, mouseY)){
+                        menue = new StartMenue(window, renderer);
+                        delete endMenue;
+                        endMenue = nullptr;
                     }
                 }
             }
@@ -99,10 +114,6 @@ int main(int argc, char* argv[])
             }
 
         }
-
-
-        // Inhalt anzeigen
-        SDL_RenderPresent(renderer);
     }
 
 

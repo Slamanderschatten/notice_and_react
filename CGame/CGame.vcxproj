@@ -134,12 +134,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CGame.cpp" />
+    <ClCompile Include="EndMenue.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="PlayerField.cpp" />
     <ClCompile Include="PlayerKeys.cpp" />
     <ClCompile Include="StartMenue.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EndMenue.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="PlayerAction.h" />
     <ClInclude Include="PlayerField.h" />

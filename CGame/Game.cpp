@@ -8,17 +8,12 @@ namespace cgame {
 	/************************ private ******************************************/
 
 
-	void Game::cycle() {
+	void Game::cycleClock() {
 		auto nextCallTime = chrono::steady_clock::now();
 		while (run) {
 			nextCallTime += cycleTime;
+			cycleSignal = true;
 			this_thread::sleep_until(nextCallTime);
-			
-			for (PlayerField& field : fields) {
-				field.update();
-				field.print();
-			}
-
 		}
 	}
 
@@ -37,16 +32,18 @@ namespace cgame {
 	/************************ public ******************************************/
 
 
-	Game::Game(SDL_Renderer* renderer,
+	Game::Game(SDL_Window* window,
+				SDL_Renderer* renderer,
 				double frequency,
 				uint8_t activationCycles,
 				uint8_t cyclesToActivate,
 				uint8_t numberOfPlayers,
 				uint8_t partialFieldsPerSide,
 				uint64_t fieldSizePixel) :
+			window(window),
 			renderer(renderer),
 			frequency(frequency),
-			cycleTime(static_cast<uint64_t>(1 / frequency * 1000000000)),
+			cycleTime(static_cast<uint64_t>(1 / frequency * 1000)),
 			numberPlayer(numberOfPlayers),
 			partialFields(partialFieldsPerSide),
 			fieldSize(fieldSizePixel),
@@ -81,17 +78,18 @@ namespace cgame {
 				emplaceAt = 1;
 				break;
 			case 2:
-				color = { 0,255,0 };
+				color = { 0,0,255 };
 				keys->up = SDLK_u;
 				keys->down = SDLK_j;
 				keys->left = SDLK_h;
 				keys->right = SDLK_k;
 				keys->activate = { SDLK_z, SDLK_l };
-				emplaceAt = 1;
+				emplaceAt = 0;
 				break;
 				
 			}
 			fields.emplace(fields.begin() + emplaceAt,
+				window,
 				renderer,
 				static_cast<uint64_t>(fieldSize * i + (fieldSize / 20) * i),
 				color,
@@ -116,7 +114,7 @@ namespace cgame {
 
 	void Game::start() {
 		run = true;
-		cycleThread = new thread(&Game::cycle, this);
+		cycleThread = new thread(&Game::cycleClock, this);
 	}
 
 
@@ -132,6 +130,18 @@ namespace cgame {
 	}
 
 
+	void Game::cycle() {
+		if (cycleSignal) {
+			cycleSignal = false;
+			SDL_RenderClear(renderer);
+			for (PlayerField& field : fields) {
+				field.update();
+				field.print();
+			}
+		}
+	}
+
+
 	bool Game::keyAction(SDL_Keycode key) {
 		for (PlayerField& field : fields) {
 			if(field.keyAction(key))
@@ -139,6 +149,16 @@ namespace cgame {
 
 		}
 		return false;
+	}
+
+
+	int16_t Game::checkActivations() {
+		for (uint8_t i = 0; i < fields.size(); i++) {
+			if (fields[i].checkActivations()) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 

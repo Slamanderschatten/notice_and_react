@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
                 int mouseX, mouseY;
                 SDL_GetMouseState(&mouseX, &mouseY);
                 if (menue) {
-                    game = menue->startGameButton(mouseX, mouseY);
+                    game = menue->buttons(mouseX, mouseY);
                     if (game) {
                         game->start();
                         delete menue;

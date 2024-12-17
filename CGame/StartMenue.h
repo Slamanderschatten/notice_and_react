@@ -10,6 +10,7 @@
 #include <atomic>
 
 #include "Game.h"
+#include "Settings.h"
 
 
 
@@ -22,8 +23,8 @@ namespace cgame {
 	private:
 		bool active = true;
 
-		const uint64_t winSizeX = 600;
-		const uint64_t winSizeY = 300;
+		const int winSizeX = 600;
+		const int winSizeY = 300;
 		//extern
 		SDL_Window* window;
 		SDL_Renderer* renderer;
@@ -36,12 +37,7 @@ namespace cgame {
 		TTF_Font* font;
 		//attr
 		uint8_t mode = 0;
-		//game settings
-		double frequency;
-		uint8_t activationCycles;
-		uint8_t numberOfPlayers;
-		uint8_t partialFieldsPerSide;
-		uint8_t difficultly = 0;
+		Settings sett{ 0 };
 
 
 		void print();

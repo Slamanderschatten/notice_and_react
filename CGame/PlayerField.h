@@ -11,6 +11,7 @@
 
 
 #include "PlayerKeys.h"
+#include "Settings.h"
 
 
 
@@ -32,14 +33,11 @@ namespace cgame {
 		SDL_Color color;
 		PlayerKeys* keys;
 		//field settings
-		uint8_t sideLenght;
+		Settings settings;
 		uint16_t partialFieldNumber;
 		uint16_t fieldRandomNumber;
 		uint64_t fieldPixelLength;
 		uint64_t partialFieldPixelLength;
-		double frequency;
-		uint8_t activationCycles;
-		uint8_t cyclesToActivate;
 		//field
 		vector<vector<uint64_t>> fieldMasks;
 		uint8_t actualMask = 0;
@@ -63,13 +61,10 @@ namespace cgame {
 	public:
 		PlayerField(SDL_Window* window,
 			SDL_Renderer* renderer,
-			uint64_t playerPixelPos,
+			Settings settings,
 			SDL_Color playerColor,
-			uint8_t sideLenght,
+			uint64_t playerPixelPos,
 			uint64_t sideLenghtPixel,
-			double frequency,
-			uint8_t activationCycles,
-			uint8_t cyclesToActivate,
 			PlayerKeys* keys);
 		void clear();
 		void update();

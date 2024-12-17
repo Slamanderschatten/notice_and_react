@@ -22,9 +22,9 @@ namespace cgame {
 			textButtonIII = "4 FPS";
 			break;
 		case 2:		// activationCycles;
-			textButtonI = "2 Frames necessary for activation";
-			textButtonII = "3 Frames necessary for activation";
-			textButtonIII = "4 Frames necessary for activation";
+			textButtonI = "2 Frames for activation";
+			textButtonII = "3 Frames for activation";
+			textButtonIII = "4 Frames for activation";
 			break;
 		case 3:		// partialFieldsPerSide
 			textButtonI = "2 Fields side length";
@@ -37,6 +37,9 @@ namespace cgame {
 			textButtonIII = "difficult";
 			break;
 		}
+
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_RenderClear(renderer);
 
 		//button 1
 		if (textButtonI != "") {
@@ -95,6 +98,8 @@ namespace cgame {
 			SDL_RenderCopy(renderer, textTextureIII, nullptr, &textRectIII);
 		}
 
+		SDL_RenderPresent(renderer);
+
 	}
 
 
@@ -149,54 +154,57 @@ namespace cgame {
 
 		switch (mode) {
 		case 0:		//player number
-			numberOfPlayers = 0;
+			sett.numberOfPlayers = 0;
 			// 2 players
 			if (mouseOverI) {
-				numberOfPlayers = 2;
+				sett.numberOfPlayers = 2;
 			}
 			// 3 players
 			else if (mouseOverII) {
-				numberOfPlayers = 3;
+				sett.numberOfPlayers = 3;
 			}
 			//change window size
-			if (numberOfPlayers > 1) {
+			if (sett.numberOfPlayers > 1) {
 				SDL_SetWindowSize(window,
-					winSizeY * numberOfPlayers + (winSizeY / 20) * (numberOfPlayers - 1),
+					winSizeY * sett.numberOfPlayers + (winSizeY / 20) * (sett.numberOfPlayers - 1),
 					winSizeY);
 			}
-			return nullptr;
+			break;
 		case 1:		// frequency
 			if (mouseOverI)
-				frequency = 1.0;
+				sett.frequency = 1.0;
 			else if (mouseOverII)
-				frequency = 2.0;
+				sett.frequency = 2.0;
 			else if (mouseOverIII)
-				frequency = 3.0;
-			return nullptr;
+				sett.frequency = 3.0;
+			break;
 		case 2:		// activationCycles;
 			if (mouseOverI)
-				activationCycles = 2;
+				sett.activationCycles = 2;
 			else if (mouseOverII)
-				activationCycles = 3;
+				sett.activationCycles = 3;
 			else if (mouseOverIII)
-				activationCycles = 4;
-			return nullptr;
+				sett.activationCycles = 4;
+			break;
 		case 3:		// partialFieldsPerSide
 			if (mouseOverI)
-				partialFieldsPerSide = 2;
+				sett.partialFieldsPerSide = 2;
 			else if (mouseOverII)
-				partialFieldsPerSide = 4;
+				sett.partialFieldsPerSide = 4;
 			else if (mouseOverIII)
-				partialFieldsPerSide = 8;
-			return nullptr;
+				sett.partialFieldsPerSide = 8;
+			break;
 		case 4:		//difficultly
 			if (mouseOverI)
-				difficultly = 0;
+				sett.difficultly = 0;
 			else if (mouseOverII)
-				difficultly = 1;
+				sett.difficultly = 1;
 			else if (mouseOverIII)
-				difficultly = 2;
-			return new Game(window, renderer, 3.0, 3, 4, numberOfPlayers, 8, winSizeY);
+				sett.difficultly = 2;
+			return new Game(window, renderer, sett, winSizeY);
 		}
+		mode++;
+		print();
+		return nullptr;
 	}
 }

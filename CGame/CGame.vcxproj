@@ -146,7 +146,11 @@
     <ClInclude Include="PlayerAction.h" />
     <ClInclude Include="PlayerField.h" />
     <ClInclude Include="PlayerKeys.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="StartMenue.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CGame.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

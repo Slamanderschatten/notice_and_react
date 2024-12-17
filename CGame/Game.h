@@ -4,6 +4,7 @@
 
 #include "PlayerField.h"
 #include "EndMenue.h"
+#include "Settings.h"
 
 
 
@@ -20,13 +21,10 @@ namespace cgame {
 		char* basePathC;
 		string basePath;
 		//settings
-		uint8_t numberPlayer = 0;
+		Settings settings;
 		uint64_t fieldSize;
 		uint64_t winSizeX;
 		uint64_t winSizeY;
-		uint8_t partialFields;
-		double frequency;
-		uint8_t activationCycles;
 		//player
 		vector<PlayerField> fields;
 		//cycles
@@ -42,11 +40,7 @@ namespace cgame {
 	public:
 		Game(SDL_Window* window,
 			SDL_Renderer* renderer,
-			double frequency, 
-			uint8_t activationCycles,
-			uint8_t cyclesToActivate,
-			uint8_t numberOfPlayers, 
-			uint8_t partialFieldsPerSide, 
+			Settings settings,
 			uint64_t fieldSizePixel);
 		~Game();
 		void start();

@@ -21,8 +21,8 @@ namespace cgame {
 	class EndMenue
 	{
 	private:
-		const uint64_t winSizeX = 600;
-		const uint64_t winSizeY = 300;
+		const int winSizeX = 600;
+		const int winSizeY = 300;
 		//extern
 		SDL_Window* window;
 		SDL_Renderer* renderer;

@@ -25,20 +25,35 @@ namespace cgame {
 			actualMask = 0;
 		for (int i = 0; i < fieldRandomNumber; i++) {
 			uint64_t randomI = rand();
-			randomI <<= 16;
+			randomI <<= 15;
 			randomI |= rand();
-			randomI <<= 16;
+			randomI <<= 15;
 			randomI |= rand();
-			randomI <<= 16;
+			randomI <<= 15;
+			randomI |= rand();
+			randomI <<= 15;
 			randomI |= rand();
 			uint64_t randomII = rand();
-			randomII <<= 16;
+			randomII <<= 15;
 			randomII |= rand();
-			randomII <<= 16;
+			randomII <<= 15;
 			randomII |= rand();
-			randomII <<= 16;
+			randomII <<= 15;
 			randomII |= rand();
-			fieldMasks[actualMask][i] = randomI | randomII;
+			randomII <<= 15;
+			randomII |= rand();
+
+			switch (settings.difficultly) {
+			case 0:
+				fieldMasks[actualMask][i] = randomI | randomII;
+				break;
+			case 1:
+				fieldMasks[actualMask][i] = randomI;
+				break;
+			case 2:
+				fieldMasks[actualMask][i] = randomI & randomII;
+				break;
+			}
 		}
 	}
 
@@ -74,7 +89,7 @@ namespace cgame {
 				//next row
 				x++;
 				//next line
-				if (x >= sideLenght) {
+				if (x >= settings.partialFieldsPerSide) {
 					x = 0;
 					y++;
 				}
@@ -111,7 +126,7 @@ namespace cgame {
 				//next row
 				x++;
 				//next line
-				if (x >= sideLenght) {
+				if (x >= settings.partialFieldsPerSide) {
 					x = 0;
 					y++;
 				}
@@ -127,28 +142,28 @@ namespace cgame {
 
 
 	void PlayerField::up() {
-		if (cursorPartialField >= sideLenght) {
+		if (cursorPartialField >= settings.partialFieldsPerSide) {
 			cursorRect.y -= partialFieldPixelLength;
-			cursorPartialField -= sideLenght;
+			cursorPartialField -= settings.partialFieldsPerSide;
 		}
 		print();
 	}
 	void PlayerField::down() {
-		if (cursorPartialField <= partialFieldNumber - sideLenght) {
+		if (cursorPartialField <= partialFieldNumber - settings.partialFieldsPerSide) {
 			cursorRect.y += partialFieldPixelLength;
-			cursorPartialField += sideLenght;
+			cursorPartialField += settings.partialFieldsPerSide;
 		}
 		print();
 	}
 	void PlayerField::left() {
-		if (cursorPartialField % sideLenght != 0) {
+		if (cursorPartialField % settings.partialFieldsPerSide != 0) {
 			cursorRect.x -= partialFieldPixelLength;
 			cursorPartialField--;
 		}
 		print();
 	}
 	void PlayerField::right() {
-		if ((cursorPartialField + 1) % sideLenght != 0) {
+		if ((cursorPartialField + 1) % settings.partialFieldsPerSide != 0) {
 			cursorRect.x += partialFieldPixelLength;
 			cursorPartialField++;
 		}
@@ -167,7 +182,7 @@ namespace cgame {
 		for (uint64_t i = 0; i < fieldMasks.size(); i++) {
 			if (fieldMasks[mask][randomValueIndex] & bitMask) {
 				activationPossible++;
-				if (activationPossible >= activationCycles)
+				if (activationPossible >= settings.activationCycles)
 					break;
 			}
 			else
@@ -179,7 +194,7 @@ namespace cgame {
 				mask--;
 		}
 
-		if (activationPossible >= activationCycles) {
+		if (activationPossible >= settings.activationCycles) {
 			activatedMask[randomValueIndex] |= bitMask;
 		}
 		print();
@@ -196,25 +211,19 @@ namespace cgame {
 
 	PlayerField::PlayerField(SDL_Window* window,
 							SDL_Renderer* renderer,
-							uint64_t playerPos,
+							Settings settings,
 							SDL_Color playerColor,
-							uint8_t sideLenght,
+							uint64_t playerOffcetX,
 							uint64_t sideLenghtPixel,
-							double frequency,
-							uint8_t activationCycles,
-							uint8_t cyclesToActivate,
 							PlayerKeys* keys) :
 			window(window),
 			renderer(renderer),
-			sideLenght(sideLenght),
-			frequency(frequency),
-			partialFieldNumber(sideLenght* sideLenght),
-			offcetX(playerPos),
+			settings(settings),
+			offcetX(playerOffcetX),
 			color(playerColor),
-			activationCycles(activationCycles),
-			cyclesToActivate(cyclesToActivate),
 			fieldPixelLength(sideLenghtPixel),
-			partialFieldPixelLength(fieldPixelLength / sideLenght),
+			partialFieldPixelLength(fieldPixelLength / settings.partialFieldsPerSide),
+			partialFieldNumber(settings.partialFieldsPerSide * settings.partialFieldsPerSide),
 			cursorRect(),
 			keys(keys){
 
@@ -229,7 +238,7 @@ namespace cgame {
 		cursorRect.w = partialFieldPixelLength / 2;
 		cursorRect.h = partialFieldPixelLength / 2;
 
-		fieldMasks.resize(activationCycles + cyclesToActivate);
+		fieldMasks.resize(settings.activationCycles + settings.frequency * 3);
 		for (vector<uint64_t>& fieldMask : fieldMasks) {
 			fieldMask.resize(fieldRandomNumber);
 		}
@@ -254,7 +263,6 @@ namespace cgame {
 		printField();
 		printActivations();
 		printCursor();
-		SDL_RenderPresent(renderer);
 	}
 
 

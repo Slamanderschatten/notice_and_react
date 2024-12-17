@@ -1,25 +1,2 @@
-﻿  CGame.cpp
-  EndMenue.cpp
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\EndMenue.cpp(14,28): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\EndMenue.cpp(15,32): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\EndMenue.cpp(29,30): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\EndMenue.cpp(30,26): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\EndMenue.cpp(31,30): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\EndMenue.cpp(61,39): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\EndMenue.cpp(61,29): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
-  StartMenue.cpp
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(32,24): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(33,28): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(48,29): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(49,25): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(50,29): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(65,30): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(66,26): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(67,30): warning C4244: "=": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(96,39): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(96,29): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(129,6): warning C4244: "Argument": Konvertierung von "const uint64_t" in "int", möglicher Datenverlust
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(128,33): warning C4244: "Argument": Konvertierung von "uint64_t" in "int", möglicher Datenverlust
-  Code wird generiert...
-C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\CGame\StartMenue.cpp(144,1): warning C4715: "cgame::StartMenue::buttons": Nicht alle Codepfade geben einen Wert zurück.
+﻿  Game.cpp
   CGame.vcxproj -> C:\Users\Medion\Documents\HS\Programmieren\cgame\notice_and_react\x64\Debug\CGame.exe

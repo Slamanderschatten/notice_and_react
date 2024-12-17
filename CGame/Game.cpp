@@ -18,6 +18,30 @@ namespace cgame {
 	}
 
 
+	void Game::storeSettings() {
+		ofstream file("settings.dat", ios::binary);
+		if (!file) {
+			cerr << "ofstream error by opening to write settings!" << endl;
+			return;
+		}
+		file.write(reinterpret_cast<const char*>(&settings), sizeof(Settings));
+		file.close();
+	}
+
+
+	Settings Game::loadSettings() {
+		Settings sett{ 0 };
+		ifstream file("settings.dat", ios::binary);
+		if (!file) {
+			cerr << "ofstream error by opening to read settings!" << endl;
+			return sett;
+		}
+		file.read(reinterpret_cast<char*>(&sett), sizeof(Settings));
+		file.close();
+		return sett;
+	}
+
+
 
 
 
@@ -30,6 +54,16 @@ namespace cgame {
 
 
 	/************************ public ******************************************/
+
+
+	Game::Game(SDL_Window* window,
+				SDL_Renderer* renderer,
+				uint64_t fieldSizePixel) :
+			Game(window, renderer, loadSettings(), fieldSizePixel)
+	{
+
+	}
+
 
 
 	Game::Game(SDL_Window* window,
@@ -98,7 +132,7 @@ namespace cgame {
 				keys);
 		}
 
-
+		storeSettings();
 	}
 	Game::~Game() {
 		stop();
@@ -147,7 +181,10 @@ namespace cgame {
 				SDL_RenderPresent(renderer);
 				return true;
 			}
-
+		}
+		if (key == SDLK_ESCAPE) {
+			stop();
+			return true;
 		}
 		return false;
 	}
@@ -159,6 +196,8 @@ namespace cgame {
 				return i;
 			}
 		}
+		if (!run)
+			return -2;
 		return -1;
 	}
 

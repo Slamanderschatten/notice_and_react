@@ -10,11 +10,14 @@ namespace cgame {
 		string textButtonI = "";
 		string textButtonII = "";
 		string textButtonIII = "";
+		ifstream file("settings.dat");
 
 		switch (mode) {
 		case 0:		// number of players
 			textButtonI = "start Game with 2 players";
 			textButtonII = "start Game with 3 players";
+			if(file.good())
+				textButtonIII = "play with old settings";
 			break;
 		case 1:		// frequency
 			textButtonI = "1 FPS";
@@ -155,8 +158,12 @@ namespace cgame {
 		switch (mode) {
 		case 0:		//player number
 			sett.numberOfPlayers = 0;
+			//old settings
+			if (mouseOverIII) {
+				return new Game(window, renderer, winSizeY);
+			}
 			// 2 players
-			if (mouseOverI) {
+			else if (mouseOverI) {
 				sett.numberOfPlayers = 2;
 			}
 			// 3 players

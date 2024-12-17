@@ -1,6 +1,8 @@
 #pragma once
 
 #include <numeric>
+#include <fstream>
+#include <filesystem>
 
 #include "PlayerField.h"
 #include "EndMenue.h"
@@ -35,9 +37,15 @@ namespace cgame {
 
 
 		void cycleClock();
+		void storeSettings();
+		static Settings loadSettings();
 
 
 	public:
+
+		Game(SDL_Window* window,
+			SDL_Renderer* renderer,
+			uint64_t fieldSizePixel);
 		Game(SDL_Window* window,
 			SDL_Renderer* renderer,
 			Settings settings,

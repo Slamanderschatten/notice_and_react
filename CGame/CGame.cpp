@@ -75,6 +75,14 @@ int main(int argc, char* argv[])
                 run = false;
             }
             else if (event.type == SDL_KEYDOWN) {
+                switch (event.key.keysym.sym) {
+                case SDLK_ESCAPE:
+                    if (!game) {
+                        game->stop();
+                        run = false;
+                        break;
+                    }
+                }
                 if (game) {
                     game->keyAction(event.key.keysym.sym);
                     int16_t winner = game->checkActivations();
@@ -83,12 +91,11 @@ int main(int argc, char* argv[])
                         delete game;
                         game = nullptr;
                     }
-                }
-                switch (event.key.keysym.sym) {
-                case SDLK_ESCAPE:
-                    game->stop();
-                    run = false;
-                    break;
+                    if (winner == -2) {
+                        menue = new StartMenue(window, renderer);
+                        delete game;
+                        game = nullptr;
+                    }
                 }
             }
             else if (event.type == SDL_MOUSEBUTTONDOWN) {

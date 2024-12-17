@@ -271,15 +271,15 @@ namespace cgame {
 			up();
 			return true;
 		}
-		if (key == keys->down) {
+		else if (key == keys->down) {
 			down();
 			return true;
 		}
-		if (key == keys->left) {
+		else if (key == keys->left) {
 			left();
 			return true;
 		}
-		if (key == keys->right) {
+		else if (key == keys->right) {
 			right();
 			return true;
 		}

@@ -8,6 +8,7 @@
 #include <deque>
 #include <thread>
 #include <atomic>
+#include <fstream>
 
 #include "Game.h"
 #include "Settings.h"

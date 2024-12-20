@@ -61,7 +61,9 @@ namespace cgame {
 				uint64_t fieldSizePixel) :
 			Game(window, renderer, loadSettings(), fieldSizePixel)
 	{
-
+		SDL_SetWindowSize(window,
+			winSizeY * settings.numberOfPlayers + (winSizeY / 20) * (settings.numberOfPlayers - 1),
+			winSizeY);
 	}
 
 
